@@ -1,0 +1,23 @@
+# Build
+bin/
+obj/
+
+# VS / VSCode
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env files
+.env
+
+docker-compose.override.yml
+Backend/Universidad/appsettings*.json
+Backend/Universidad/Migrations/

@@ -1,0 +1,29 @@
+services:
+  universidad.api:
+    build:
+      context: ./Backend/Universidad
+      dockerfile: Dockerfile
+    container_name: universidad_api
+    ports:
+      - "5000:8080"
+    depends_on:
+      - universidad.db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=universidad.db;Port=5432;Database=universidad;Username=postgres;Password=postgres123
+
+  universidad.db:
+    image: postgres:16
+    container_name: universidad_db
+    restart: always
+    environment:
+      POSTGRES_DB: universidad
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+    ports:
+      - "5433:5432"
+    volumes:
+      - universidad_data:/var/lib/postgresql/data
+
+volumes:
+  universidad_data:
