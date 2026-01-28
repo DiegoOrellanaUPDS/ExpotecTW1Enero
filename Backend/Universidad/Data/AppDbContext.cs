@@ -11,11 +11,11 @@ namespace Data
 
         // Define tus DbSet aquí
         public DbSet<Persona> Estudiantes { get; set; }
+
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
-
         // DataTime (C#) == Date (PostreSQL)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,10 @@ namespace Data
                 }
             }
         }
+
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+
     }
 
 }
