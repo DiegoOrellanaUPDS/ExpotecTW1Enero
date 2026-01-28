@@ -7,15 +7,36 @@ namespace Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+           
         }
 
-        // Define tus DbSet aquí
+        
+
+        public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
+        public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
         public DbSet<Persona> Estudiantes { get; set; }
+
+        public DbSet<Libros> Libros { get; set; }
+        public DbSet<Categorias> Categorias { get; set; }
+        public DbSet<Prestamos> Prestamos { get; set; }
+
+
+
+         public DbSet<Universidad.Entidades.LimpiezaInsumo> LimpiezaInsumos { get; set; }
+          public DbSet<Universidad.Entidades.ObjetoPerdido> ObjetosPerdidos { get; set; }
+
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
+
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+        public DbSet<Solicitud> Solicitudes { get; set; }
+        
+
+
         // DataTime (C#) == Date (PostreSQL)
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -63,10 +84,11 @@ namespace Data
 
 
 
-        public DbSet<Departamento> Departamentos { get; set; }
-        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
-        public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
-        public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
+
+
+
+
+
 
     }
 
