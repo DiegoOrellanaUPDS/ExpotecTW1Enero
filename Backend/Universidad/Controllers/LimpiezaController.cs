@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Universidad.Data;
+using Data;
 using Universidad.Entidades;
 
 namespace Universidad.Controllers

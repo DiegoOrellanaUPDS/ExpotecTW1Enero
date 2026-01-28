@@ -9,8 +9,11 @@ namespace Data
         {
            
         }
+        public DbSet<Docente> Docentes { get; set; }
+        public DbSet<UsuarioFI> UsuarioFIs { get; set; }
+        public DbSet<Materia> Materias { get; set; }
 
-        
+
 
         public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
         public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
@@ -44,6 +47,14 @@ namespace Data
         public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
         public DbSet<Trabajo> Trabajos {get;set;}
         public DbSet<UsuarioTH> UsuarioTHs {get;set;}
+
+
+
+
+
+
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         modelBuilder.Entity<Profesor>(entity =>
@@ -67,7 +78,7 @@ namespace Data
                     .HasMaxLength(200);
                 
                 entity.Property(e => e.FechaCreacion)
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("CURRENT_DATE");
             });
             base.OnModelCreating(modelBuilder);
 
