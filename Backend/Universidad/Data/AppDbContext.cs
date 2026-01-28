@@ -57,9 +57,16 @@ namespace Data
                 }
             }
         }
+        
+
+
+
+
 
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+        public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
+        public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
 
     }
 
