@@ -35,6 +35,12 @@ namespace Data
 
 
         // DataTime (C#) == Date (PostreSQL)
+        public DbSet<Evaluacion> Evaluaciones {get;set;}
+        public DbSet<Postulante> Postulantes {get;set;}
+        public DbSet<Reclutador> Reclutadores {get;set;}
+        public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
+        public DbSet<Trabajo> Trabajos {get;set;}
+        public DbSet<UsuarioTH> UsuarioTHs {get;set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         modelBuilder.Entity<Profesor>(entity =>
