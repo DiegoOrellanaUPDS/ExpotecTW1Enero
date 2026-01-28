@@ -1,0 +1,34 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Universidad.Data;
+using Entidades;
+
+namespace Universidad.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Policy = "SoloBrandon")] // 🔐 SOLO VOS
+    public class LaboratoriosController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public LaboratoriosController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(_context.Laboratorios.ToList());
+        }
+
+        [HttpPost]
+        public IActionResult Post(Laboratorio laboratorio)
+        {
+            _context.Laboratorios.Add(laboratorio);
+            _context.SaveChanges();
+            return Ok(laboratorio);
+        }
+    }
+}
