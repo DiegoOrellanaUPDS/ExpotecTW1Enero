@@ -1,23 +1,63 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
 
-namespace Universidad.Data
+namespace Data
 {
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+           
         }
+        public DbSet<Docente> Docentes { get; set; }
+        public DbSet<UsuarioFI> UsuarioFIs { get; set; }
+        public DbSet<Materia> Materias { get; set; }
 
-        // Define tus DbSet aquí
+
+
+        public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
+        public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
         public DbSet<Persona> Estudiantes { get; set; }
 
+        public DbSet<Libros> Libros { get; set; }
+        public DbSet<Categorias> Categorias { get; set; }
+        public DbSet<Prestamos> Prestamos { get; set; }
 
+
+
+         public DbSet<Universidad.Entidades.LimpiezaInsumo> LimpiezaInsumos { get; set; }
+          public DbSet<Universidad.Entidades.ObjetoPerdido> ObjetosPerdidos { get; set; }
+
+
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
+
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+        public DbSet<Solicitud> Solicitudes { get; set; }
+        
+
+
+        // DataTime (C#) == Date (PostreSQL)
+        public DbSet<Evaluacion> Evaluaciones {get;set;}
+        public DbSet<Postulante> Postulantes {get;set;}
+        public DbSet<Reclutador> Reclutadores {get;set;}
+        public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
+        public DbSet<Trabajo> Trabajos {get;set;}
+        public DbSet<UsuarioTH> UsuarioTHs {get;set;}
+
+
+
+
+
+
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Profesor>(entity =>
+        modelBuilder.Entity<Profesor>(entity =>
             {
                 entity.ToTable("Profesores");
                 entity.HasKey(e => e.Id);
@@ -38,11 +78,35 @@ namespace Universidad.Data
                     .HasMaxLength(200);
                 
                 entity.Property(e => e.FechaCreacion)
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("CURRENT_DATE");
             });
-
             base.OnModelCreating(modelBuilder);
+
+            // Recorre todas las entidades y propiedades DateTime
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    // Si la propiedad es DateTime o DateTime?
+                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetColumnType("date"); // Se guarda como "date" en PostgreSQL
+                    }
+                }
+            }
         }
+        
+
+
+
+
+
+
+
+
+
+
+
     }
 
 }

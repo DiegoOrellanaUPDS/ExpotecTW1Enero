@@ -1,33 +1,66 @@
+using Data;
 using Microsoft.EntityFrameworkCore;
-using Universidad.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ====================
-// Servicios
-// ====================
+// =====================
+// Cadena de conexión
+// =====================
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
+                       ?? builder.Configuration.GetConnectionString("Connection");
 
+// =====================
+// Servicios
+// =====================
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Connection")));
+    options.UseNpgsql(connectionString, npgsqlOptions =>
+    {
+        npgsqlOptions.EnableRetryOnFailure();
+    }));
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyApp", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
-// ====================
+// =====================
 // App
-// ====================
-
+// =====================
 var app = builder.Build();
 
-// ====================
-// Middleware
-// ====================
+// =====================
+// Migraciones automáticas
+// =====================
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        dbContext.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Error aplicando migraciones: " + ex.Message);
+    }
+}
 
+// =====================
+// Middleware
+// =====================
 app.UseSwagger();
 app.UseSwaggerUI();
 
+app.UseCors("MyApp");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -35,4 +68,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-
