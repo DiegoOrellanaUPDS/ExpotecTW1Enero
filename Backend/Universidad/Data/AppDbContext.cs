@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
 
-namespace Universidad.Data
+namespace Data
 {
     public class AppDbContext : DbContext
     {
@@ -13,7 +13,58 @@ namespace Universidad.Data
         
         public DbSet<Persona> Estudiantes { get; set; }
 
+
          public DbSet<Universidad.Entidades.LimpiezaInsumo> LimpiezaInsumos { get; set; }
           public DbSet<Universidad.Entidades.ObjetoPerdido> ObjetosPerdidos { get; set; }
+
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<Profesor> Profesores { get; set; }
+
+        // DataTime (C#) == Date (PostreSQL)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+        modelBuilder.Entity<Profesor>(entity =>
+            {
+                entity.ToTable("Profesores");
+                entity.HasKey(e => e.Id);
+            
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                
+                entity.Property(e => e.Categoria)
+                    .IsRequired()
+                    .HasMaxLength(50);
+                
+                entity.Property(e => e.Correo)
+                    .IsRequired()
+                    .HasMaxLength(100);
+                
+                entity.Property(e => e.Especialidad)
+                    .HasMaxLength(200);
+                
+                entity.Property(e => e.FechaCreacion)
+                    .HasDefaultValueSql("GETDATE()");
+            });
+            base.OnModelCreating(modelBuilder);
+
+            // Recorre todas las entidades y propiedades DateTime
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                foreach (var property in entityType.GetProperties())
+                {
+                    // Si la propiedad es DateTime o DateTime?
+                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
+                    {
+                        property.SetColumnType("date"); // Se guarda como "date" en PostgreSQL
+                    }
+                }
+            }
+        }
+
     }
+
 }
+
