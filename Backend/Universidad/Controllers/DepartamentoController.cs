@@ -8,7 +8,9 @@ namespace Universidad.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize] // <--- REQUISITO OBLIGATORIO: Protege todo el controlador
+
+    //[Authorize] // <--- REQUISITO OBLIGATORIO: Protege todo el controlador
+
     public class DepartamentosController : ControllerBase
     {
         private readonly AppDbContext _context;
