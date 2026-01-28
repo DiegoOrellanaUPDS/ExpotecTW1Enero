@@ -11,5 +11,8 @@ namespace Universidad.Data
 
         // Define tus DbSet aquí
         public DbSet<Persona> Estudiantes { get; set; }
+        public DbSet<Libros> Libros { get; set; }
+        public DbSet<Categorias> Categorias { get; set; }
+        public DbSet<Prestamos> Prestamos { get; set; }
     }
 }
