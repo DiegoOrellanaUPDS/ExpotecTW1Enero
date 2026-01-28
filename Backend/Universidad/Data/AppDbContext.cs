@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
 
-namespace Universidad.Data
+namespace Data
 {
     public class AppDbContext : DbContext
     {
@@ -14,5 +14,15 @@ namespace Universidad.Data
         public DbSet<Libros> Libros { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
         public DbSet<Prestamos> Prestamos { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Producto> Productos { get; set; }
+        public DbSet<Factura> Facturas { get; set; }
+        public DbSet<Profesor> Profesores { get; set; }
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+        public DbSet<Solicitud> Solicitudes { get; set; }
+        
     }
+
 }
+
