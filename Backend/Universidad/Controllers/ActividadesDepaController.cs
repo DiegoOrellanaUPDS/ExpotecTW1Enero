@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Universidad.Entidades; 
-using Universidad.Data; // Asegúrate que este sea el namespace de tu DbContext
+using Entidades; 
+using Data; // Asegúrate que este sea el namespace de tu DbContext
 
 namespace Universidad.Controllers
 {
@@ -11,9 +11,9 @@ namespace Universidad.Controllers
     [Authorize] // Requisito obligatorio del proyecto
     public class ActividadesDepaController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public ActividadesDepaController(ApplicationDbContext context)
+        public ActividadesDepaController(AppDbContext context)
         {
             _context = context;
         }

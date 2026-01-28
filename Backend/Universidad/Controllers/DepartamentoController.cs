@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Universidad.Data; // Ajusta el namespace según tu proyecto
-using Universidad.Models;
+using Data; // Ajusta el namespace según tu proyecto
+using Entidades;
 
 namespace Universidad.Controllers
 {
@@ -11,9 +11,9 @@ namespace Universidad.Controllers
     [Authorize] // <--- REQUISITO OBLIGATORIO: Protege todo el controlador
     public class DepartamentosController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly AppDbContext _context;
 
-        public DepartamentosController(ApplicationDbContext context)
+        public DepartamentosController(AppDbContext context)
         {
             _context = context;
         }
