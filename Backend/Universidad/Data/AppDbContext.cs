@@ -11,6 +11,9 @@ namespace Data
         }
 
         
+
+        public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
+        public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
         public DbSet<Persona> Estudiantes { get; set; }
 
         public DbSet<Libros> Libros { get; set; }
@@ -81,6 +84,16 @@ namespace Data
                 }
             }
         }
+        
+
+
+
+
+
+
+
+
+
 
 
     }
