@@ -67,10 +67,9 @@ namespace Data
                     .HasMaxLength(200);
                 
                 entity.Property(e => e.FechaCreacion)
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("NOW()");
             });
             base.OnModelCreating(modelBuilder);
-
             // Recorre todas las entidades y propiedades DateTime
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
@@ -85,16 +84,12 @@ namespace Data
             }
         }
         
-
-
-
-
-
-
-
-
-
-
+        //ProduccionAudiovisual
+        public DbSet<Universidad.Entidades.PersonaProduccion> PersonaProduccions { get; set; }
+        public DbSet<Universidad.Entidades.SolicitudProduccion> SolicitudProduccions { get; set; }
+        public DbSet<Universidad.Entidades.ProduccionAudiovisual> ProduccionAudiovisuals { get; set; }
+        public DbSet<Universidad.Entidades.HistorialCambios> HistorialCambioses { get; set; }
+        public DbSet<Universidad.Entidades.Cancelacion> Cancelaciones { get; set; }
 
     }
 
