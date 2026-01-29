@@ -1,7 +1,7 @@
 // Entidades/ContabilidadLoginOauth.cs
 using System.ComponentModel.DataAnnotations;
 
-namespace Universidad.Entidades
+namespace Entidades
 {
     public class ContabilidadLoginOauth
     {

@@ -1,15 +1,25 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Entidades
+
 {
     public class Docente
     {
         [Key]
-        public int Id { get; set; }
-        public string Email { get; set; }
-        public int Telefono { get; set; }
-        public string Codigo { get; set; }
-        public DateOnly FechaContratacion { get; set; }
-        public bool Estado { get; set; } = true;
+
+        public int docenteId {get;set;}
+        public string nombreDocente {get;set;}
+        public string apellidoDocente {get;set;}
+        public string docenteCi {get;set;}
+        public DateOnly fechaDeNacimiento {get;set;}
+        public string genero {get;set;}
+        public string emailPersonal {get;set;}
+        public string emailInstitucional {get;set;}
+        public string telefono {get;set;}
+        public string direccion {get;set;}
+        public string gradoAcademido {get;set;}
+        public string fechaDeIngreso {get;set;}
+        public string estado {get;set;}="activo";
+
     }
 }

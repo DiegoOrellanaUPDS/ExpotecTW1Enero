@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Universidad.Entidades
+namespace Entidades
 {
     public class PracticaProfesional
     {

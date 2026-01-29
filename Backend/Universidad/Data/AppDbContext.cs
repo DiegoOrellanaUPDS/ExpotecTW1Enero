@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
-using Universidad.Entidades;
 
 namespace Data
 {
@@ -10,14 +9,13 @@ namespace Data
         {
            
         }
-        public DbSet<Docente> Docentes { get; set; }
+
         public DbSet<Usuario_Caja> Usuarios_Caja { get; set; }
         public DbSet<UsuarioFI> UsuarioFIs { get; set; }
         public DbSet<Materia> Materias { get; set; }
         public DbSet<ContabilidadLoginOauth> ContabilidadLoginOauth { get; set; }
         public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
         public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
-        public DbSet<Persona> Estudiantes { get; set; }
         public DbSet<Libros> Libros { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
         public DbSet<Prestamos> Prestamos { get; set; }
@@ -79,6 +77,17 @@ namespace Data
                 }
             }
         }
+
+        public DbSet<Auditoria> Auditorias {get;set;}
+        public DbSet<Carrera> Carreras {get;set;}
+
+        public DbSet<Docente> Docentes {get;set;}
+
+        public DbSet<Estudiante> Estudiantes {get;set;}
+        public DbSet<ExpedienteDigital> ExpedientesDigitales {get;set;}
+        public DbSet<Inscripcion> Inscripciones {get;set;}
+        public DbSet<TipoDocumentos> TiposDocumentos {get;set;}
+        public DbSet<UsuarioConsistencia> UsuariosConsistencia {get;set;}
         
         //ProduccionAudiovisual
         public DbSet<Universidad.Entidades.PersonaProduccion> PersonaProduccions { get; set; }
@@ -88,12 +97,14 @@ namespace Data
         public DbSet<Universidad.Entidades.Cancelacion> Cancelaciones { get; set; }
 
 
+
         // Tablas de Practicas profesionales
 
         public DbSet<Carta> Cartas { get; set; }
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<PracticaProfesional> PracticasProfesionales { get; set; }
         public DbSet<UsuarioPracticasProfesionales> UsuariosPracticasProfesionales { get; set; }
+
     }
 
 }
