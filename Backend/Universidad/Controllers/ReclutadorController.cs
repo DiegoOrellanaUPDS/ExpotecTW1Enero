@@ -65,20 +65,7 @@ namespace Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteReclutador(string id)
-        {
-            var reclutador = await context.Reclutadores.FindAsync(id);
-            if (reclutador == null)
-            {
-                return NotFound();
-            }
-
-            context.Reclutadores.Remove(reclutador);
-            await context.SaveChangesAsync();
-
-            return Ok("Reclutador eliminado correctamente");
-        }
+        
 
 
 
