@@ -9,72 +9,89 @@ namespace FacultadIngenieria.Controllers
     [Route("api/[controller]")]
     public class MateriaController : ControllerBase
     {
-        private AppDbContext context;
-            
+        private readonly AppDbContext context;
+
         public MateriaController(AppDbContext context)
         {
             this.context = context;
         }
 
+        // 🔹 GET: api/materia
         [HttpGet]
-        public async Task<ActionResult> GetMaterias()
+        public async Task<ActionResult<List<Materia>>> GetMaterias()
         {
-            return Ok(await context.Materias.Where(mater => mater.Estado != false).ToListAsync());
+            var materias = await context.Materias
+                .Where(m => m.Estado)
+                .ToListAsync();
+
+            return Ok(materias);
         }
 
+        // 🔹 GET por código
         [HttpGet("{cod}")]
-        public async Task<IActionResult> GetMateriaCodigo(string cod)
+        public async Task<ActionResult<Materia>> GetMateriaCodigo(string cod)
         {
-            var materia = await (from mater in context.Docentes
-                                   where mater.docenteCi == cod && mater.estado != false
-                                   select mater).FirstOrDefaultAsync();
+            var materia = await context.Materias
+                .Where(m => m.Codigo == cod && m.Estado)
+                .FirstOrDefaultAsync();
+
             if (materia == null)
-                return NotFound();
+                return NotFound("Materia no encontrada");
+
             return Ok(materia);
         }
 
+        // 🔹 POST
         [HttpPost]
-        public async Task<IActionResult> CreateMateria(Materia materia)
+        public async Task<ActionResult> CreateMateria([FromBody] Materia materia)
         {
-            var e = await (from mater in context.Docentes
-                           where mater.docenteCi == materia.Codigo && mater.estado != false
-                           select mater).FirstOrDefaultAsync();
-            if (e != null)
-                return BadRequest("La materia ya se encuentra en la base de datos");
-        
+            var existe = await context.Materias
+                .AnyAsync(m => m.Codigo == materia.Codigo && m.Estado);
+
+            if (existe)
+                return BadRequest("Ya existe una materia con ese código");
+
+            materia.Estado = true;
+
             await context.Materias.AddAsync(materia);
             await context.SaveChangesAsync();
-            return 
-            Ok(materia);
+
+            return CreatedAtAction(nameof(GetMateriaCodigo),
+                new { cod = materia.Codigo }, materia);
         }
+
+        // 🔹 PUT
         [HttpPut("{codigo}")]
         public async Task<IActionResult> PutMateria(string codigo, [FromBody] Materia materia)
         {
-            var pe = await (from mater in context.Materias
-                                   where mater.Codigo == codigo && mater.Estado != false
-                                   select mater).FirstOrDefaultAsync();
-            if (pe == null)
-                return NotFound();
-        
-            pe.Nombre = materia.Nombre;
-            pe.Codigo = materia.Codigo;
+            var existente = await context.Materias
+                .Where(m => m.Codigo == codigo && m.Estado)
+                .FirstOrDefaultAsync();
+
+            if (existente == null)
+                return NotFound("Materia no encontrada");
+
+            // Solo actualizamos nombre (no código)
+            existente.Nombre = materia.Nombre;
 
             await context.SaveChangesAsync();
             return NoContent();
         }
-        
 
+        // 🔹 DELETE lógico
         [HttpDelete("{codigo}")]
         public async Task<IActionResult> DeleteMateria(string codigo)
         {
-            var materia = await (from mater in context.Materias
-                                   where mater.Codigo == codigo && mater.Estado != false
-                                   select mater).FirstOrDefaultAsync();
+            var materia = await context.Materias
+                .Where(m => m.Codigo == codigo && m.Estado)
+                .FirstOrDefaultAsync();
+
             if (materia == null)
-                return NotFound();
-        
+                return NotFound("Materia no encontrada");
+
             materia.Estado = false;
             await context.SaveChangesAsync();
+
             return NoContent();
         }
     }
