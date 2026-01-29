@@ -32,6 +32,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
+builder.Services.AddSession();
+builder.Services.AddDistributedMemoryCache();
 
 // =====================
 // App
@@ -58,13 +60,16 @@ using (var scope = app.Services.CreateScope())
 // Middleware
 // =====================
 app.UseSwagger();
-app.UseSwaggerUI();
-
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
+    // Esto hace que Swagger esté en la raíz
+    //c.RoutePrefix = string.Empty;
+});
 app.UseCors("MyApp");
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllers();
 
 app.Run();
