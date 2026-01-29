@@ -15,8 +15,8 @@ namespace Universidad.Controllers
         private readonly HttpClient _http;
 
         // 🔴 IMPORTANTE: Pon aquí TUS credenciales de Discord (o las del grupo si comparten)
-        private const string CLIENT_ID = "TU_CLIENT_ID_AQUI"; 
-        private const string CLIENT_SECRET = "TU_CLIENT_SECRET_AQUI";
+        private const string CLIENT_ID = "1466416788894908417"; 
+        private const string CLIENT_SECRET = "MyxWbC6II8DKI6LdXil1RCDe6xksMuNS";
         
         // 🔴 OJO CON EL PUERTO: Si usas Docker suele ser 5000, verifica dónde corre tu app.
         // Debe ser IGUAL a la que pusiste en el portal de Discord Developers.
