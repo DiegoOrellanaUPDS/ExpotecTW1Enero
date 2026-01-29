@@ -1,26 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-<<<<<<< HEAD
+
 using Entidades; 
 
 using Data; // Asegúrate que este sea el namespace de tu DbContext
 
 
-=======
-using Data;
-using Entidades;
->>>>>>> feature/rectorado-departamento
+
+
 
 namespace Universidad.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-<<<<<<< HEAD
 
-    //[Authorize] // Requisito obligatorio del proyecto
-
-=======
->>>>>>> feature/rectorado-departamento
     public class ActividadesDepaController : ControllerBase
     {
         private readonly AppDbContext _context;
