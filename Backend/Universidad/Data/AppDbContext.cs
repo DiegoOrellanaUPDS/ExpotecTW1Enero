@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
+using Universidad.Entidades;
 
 namespace Data
 {
@@ -104,6 +105,14 @@ namespace Data
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<PracticaProfesional> PracticasProfesionales { get; set; }
         public DbSet<UsuarioPracticasProfesionales> UsuariosPracticasProfesionales { get; set; }
+
+        // Tablas de CIIT
+        public DbSet<Proyecto> Proyectos {get;set;}
+        public DbSet<Documento> Documentos {get;set;}
+        public DbSet<Reporte> Reportes {get;set;}
+        public DbSet<TipoDocumentoCiit>TipoDocumentoCiits{get;set;}
+        public DbSet<VersionDocumento> VersionDocumentos {get;set;}
+        public DbSet<UsuarioCIIT> usuarioCIITs {get;set;}
 
     }
 

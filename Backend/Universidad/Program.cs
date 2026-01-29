@@ -1,5 +1,6 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Universidad.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
 // =====================
 // Servicios
 // =====================
+builder.Services.AddSingleton<CloudinaryService>(); 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString, npgsqlOptions =>
     {
