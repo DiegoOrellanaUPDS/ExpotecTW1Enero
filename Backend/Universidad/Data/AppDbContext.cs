@@ -87,6 +87,13 @@ namespace Data
         public DbSet<Universidad.Entidades.HistorialCambios> HistorialCambioses { get; set; }
         public DbSet<Universidad.Entidades.Cancelacion> Cancelaciones { get; set; }
 
+
+        // Tablas de Practicas profesionales
+
+        public DbSet<Carta> Cartas { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<PracticaProfesional> PracticasProfesionales { get; set; }
+        public DbSet<UsuarioPracticasProfesionales> UsuariosPracticasProfesionales { get; set; }
     }
 
 }
