@@ -1,0 +1,38 @@
+{
+  "realm": "universidad",
+  "enabled": true,
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "clients": [
+    {
+      "clientId": "universidad-api",
+      "enabled": true,
+      "publicClient": false,
+      "secret": "universidad-api-secret",
+      "directAccessGrantsEnabled": true,
+      "standardFlowEnabled": true,
+      "serviceAccountsEnabled": true,
+      "redirectUris": [
+        "http://localhost:5024/swagger/oauth2-redirect.html",
+        "http://localhost:5024/*",
+        "http://localhost:8085/swagger/oauth2-redirect.html",
+        "http://localhost:8085/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5024",
+        "http://localhost:8085"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "username": "estudiante",
+      "enabled": true,
+      "emailVerified": true,
+      "email": "estudiante@upds.edu",
+      "credentials": [
+        { "type": "password", "value": "Estudiante123!", "temporary": false }
+      ]
+    }
+  ]
+}

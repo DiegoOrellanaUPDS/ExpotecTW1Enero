@@ -1,0 +1,66 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Universidad.Data;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Controllers
+builder.Services.AddControllers();
+
+// Swagger
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// DB (si tu connection string existe en appsettings)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Connection")));
+
+// AUTH (Keycloak)
+var authority = builder.Configuration["Authentication:Authority"];
+if (string.IsNullOrWhiteSpace(authority))
+{
+    authority = "http://127.0.0.1:8081/realms/universidad";
+}
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = authority;
+        options.RequireHttpsMetadata = false;
+
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false,
+            ValidateIssuer = true,
+            ValidIssuers = new[]
+            {
+                authority,
+                "http://127.0.0.1:8081/realms/universidad",
+                "http://localhost:8081/realms/universidad",
+                "http://localhost:8080/realms/universidad"
+            }
+        };
+
+        options.MapInboundClaims = false;
+    });
+
+builder.Services.AddAuthorization();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseRouting();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();

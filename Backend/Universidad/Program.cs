@@ -1,25 +1,52 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Universidad.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// DB
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("Connection")));
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+// Controllers + Swagger
 builder.Services.AddControllers();
-builder.Services.AddHttpClient();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    // Evita errores típicos de Swagger por nombres/duplicados
+    c.CustomSchemaIds(t => t.FullName);
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
+});
+
+// Auth (Keycloak)
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = builder.Configuration["Authentication:Authority"];
+        options.RequireHttpsMetadata = false;
+
+        // Keycloak muchas veces manda aud=account; así no te falla por audience
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = false,
+            NameClaimType = "preferred_username"
+        };
+    });
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// IMPORTANTE: orden correcto
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 app.Run();

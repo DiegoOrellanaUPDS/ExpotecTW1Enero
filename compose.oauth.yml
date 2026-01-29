@@ -1,0 +1,33 @@
+services:
+  postgres_keycloak:
+    image: postgres:15
+    container_name: postgres_keycloak
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak
+    ports:
+      - "5433:5432"
+    volumes:
+      - pg_keycloak_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: keycloak
+    depends_on:
+      - postgres_keycloak
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres_keycloak:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak
+    command: ["start-dev", "--import-realm"]
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./docker/keycloak/realm-universidad.json:/opt/keycloak/data/import/realm-universidad.json:ro
+
+volumes:
+  pg_keycloak_data:
