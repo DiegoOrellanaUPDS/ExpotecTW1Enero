@@ -34,7 +34,9 @@ namespace Controllers
         }
 
         [HttpPut("actulizar")]
+
         public async Task<IActionResult> PutDocente(Docente proyecto)
+
         {
             var db = await context.Docentes
                 .FirstOrDefaultAsync(x => x.docenteCi == proyecto.docenteCi);
@@ -82,5 +84,7 @@ namespace Controllers
         }
     }
 
+
 }
+
 

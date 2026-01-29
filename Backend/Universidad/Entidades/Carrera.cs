@@ -1,4 +1,3 @@
-
 using System.ComponentModel.DataAnnotations;
 
 namespace Entidades
@@ -12,5 +11,6 @@ namespace Entidades
         public string facultad {get;set;}
         public string estado {get;set;} = "activo";
     }
+
 }
 

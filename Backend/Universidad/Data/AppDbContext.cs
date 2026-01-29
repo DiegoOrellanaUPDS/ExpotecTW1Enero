@@ -10,7 +10,6 @@ namespace Data
            
         }
 
-        public DbSet<Docente> Docentes { get; set; }
         public DbSet<Usuario_Caja> Usuarios_Caja { get; set; }
         public DbSet<UsuarioFI> UsuarioFIs { get; set; }
         public DbSet<Materia> Materias { get; set; }
@@ -80,19 +79,22 @@ namespace Data
 
         public DbSet<Auditoria> Auditorias {get;set;}
         public DbSet<Carrera> Carreras {get;set;}
+
+        public DbSet<Docente> Docentes {get;set;}
+
         public DbSet<Estudiante> Estudiantes {get;set;}
         public DbSet<ExpedienteDigital> ExpedientesDigitales {get;set;}
         public DbSet<Inscripcion> Inscripciones {get;set;}
         public DbSet<TipoDocumentos> TiposDocumentos {get;set;}
         public DbSet<UsuarioConsistencia> UsuariosConsistencia {get;set;}
         
-
         //ProduccionAudiovisual
         public DbSet<Universidad.Entidades.PersonaProduccion> PersonaProduccions { get; set; }
         public DbSet<Universidad.Entidades.SolicitudProduccion> SolicitudProduccions { get; set; }
         public DbSet<Universidad.Entidades.ProduccionAudiovisual> ProduccionAudiovisuals { get; set; }
         public DbSet<Universidad.Entidades.HistorialCambios> HistorialCambioses { get; set; }
         public DbSet<Universidad.Entidades.Cancelacion> Cancelaciones { get; set; }
+
 
 
     }
