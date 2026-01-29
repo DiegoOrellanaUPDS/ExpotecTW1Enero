@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-namespace Universidad.Entidades
+namespace Entidades
 {
     [Index(nameof(Id), IsUnique = true)]
     public class Usuario_Caja

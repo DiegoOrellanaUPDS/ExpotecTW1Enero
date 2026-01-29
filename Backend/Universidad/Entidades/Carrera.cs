@@ -1,10 +1,16 @@
-namespace Universidad.Entidades
+
+using System.ComponentModel.DataAnnotations;
+
+namespace Entidades
 {
     public class Carrera
     {
-        public int Id { get; set; }
-        public string Nombre { get; set; }
-        public string Facultad { get; set; }
-        public int DuracionSemestres { get; set; }
+        [Key]
+        public int carreraId {get;set;}
+        public string nombreCarrera {get;set;}
+        public string codigoCarrera {get;set;}
+        public string facultad {get;set;}
+        public string estado {get;set;} = "activo";
     }
 }
+
