@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
 
-namespace Universidad.Data
+namespace Data
 {
     public class AppDbContext : DbContext
     {
@@ -13,5 +13,6 @@ namespace Universidad.Data
         public DbSet<Persona> Estudiantes { get; set; }
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+        public DbSet<UsuarioRectorado> UsuariosRectorado { get; set; }
     }
 }
