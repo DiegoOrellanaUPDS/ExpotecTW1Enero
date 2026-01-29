@@ -7,7 +7,7 @@ using Universidad.Entidades;
 namespace Universidad.Controllers
 {
     [ApiController]
-    [Route("api/auth/discord")]
+    [Route("api/auth/discord1")]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _config;
