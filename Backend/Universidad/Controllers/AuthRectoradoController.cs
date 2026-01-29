@@ -20,7 +20,7 @@ namespace Universidad.Controllers
         
         // 🔴 OJO CON EL PUERTO: Si usas Docker suele ser 5000, verifica dónde corre tu app.
         // Debe ser IGUAL a la que pusiste en el portal de Discord Developers.
-        private const string REDIRECT_URI = "http://localhost:5000/api/auth/rectorado/callback";
+        private const string REDIRECT_URI = "http://localhost:5024/api/auth/rectorado/callback";
 
         public AuthRectoradoController(AppDbContext context)
         {
@@ -82,7 +82,7 @@ namespace Universidad.Controllers
             var userInfoResponse = await _http.GetAsync("https://discord.com/api/users/@me");
             var userInfo = JsonDocument.Parse(await userInfoResponse.Content.ReadAsStringAsync());
 
-            var username = userInfo.RootElement.GetProperty("username").GetString();
+            var username = userInfo.RootElement.GetProperty("username").GetString() ?? "UsuarioDesconocido";
             
             // Discriminator (Discord lo está eliminando, pero por si acaso)
             var discriminator = "0";
