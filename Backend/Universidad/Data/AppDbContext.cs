@@ -28,6 +28,7 @@ namespace Data
         public DbSet<Profesor> Profesores { get; set; }
         public DbSet<Departamento> Departamentos { get; set; }
         public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+
         public DbSet<Solicitud> Solicitudes { get; set; }
         public DbSet<Evaluacion> Evaluaciones {get;set;}
         public DbSet<Postulante> Postulantes {get;set;}
@@ -125,6 +126,9 @@ namespace Data
         public DbSet<TipoDocumentoCiit>TipoDocumentoCiits{get;set;}
         public DbSet<VersionDocumento> VersionDocumentos {get;set;}
         public DbSet<UsuarioCIIT> usuarioCIITs {get;set;}
+
+
+        public DbSet<UsuarioRectorado> UsuariosRectorado { get; set; }
 
     }
 
