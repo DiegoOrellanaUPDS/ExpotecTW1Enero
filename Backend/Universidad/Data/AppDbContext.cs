@@ -20,6 +20,7 @@ namespace Data
         public DbSet<Libros> Libros { get; set; }
         public DbSet<Categorias> Categorias { get; set; }
         public DbSet<Prestamos> Prestamos { get; set; }
+        public DbSet<GoogleLogin> GoogleLogins { get; set; }
         public DbSet<BibliotecaUsuarioOAuth> BibliotecaUsuariosOAuth { get; set; }
 
         public DbSet<Universidad.Entidades.LimpiezaInsumo> LimpiezaInsumos { get; set; }
