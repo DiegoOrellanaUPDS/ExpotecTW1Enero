@@ -1,60 +1,76 @@
 using Entidades;
-using Entities;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Universidad.Data;
+using Data;
 
 namespace Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CareerController : ControllerBase
+    public class CarreraController : ControllerBase
     {
         private readonly AppDbContext context;
-        public CareerController(AppDbContext context)
+        public CarreraController(AppDbContext context)
         {
             this.context =context;
         }
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Carrera>>> GetCareer()
+        [HttpGet("listarCarreras")]
+        public async Task<ActionResult<IEnumerable<Carrera>>> GetCarrera()
         {
              return await(from ar in context.Carreras
                            where ar.estado == "activo"
                            select ar).ToListAsync();
             
         }
-        [HttpGet("Mostrar segun el codigo")]
-        public async Task<ActionResult<IEnumerable<Carrera>>> GetCareers(string codigo)
+        [HttpGet("MostrarLaCarreraPorCodigo")]
+        public async Task<ActionResult<IEnumerable<Carrera>>> GetCarrera(string codigo)
         {
              return await(from ar in context.Carreras
                            where ar.codigoCarrera == codigo
                            select ar).ToListAsync();
             
         }
+
+        [HttpPut("actualizar")]
+        public async Task<IActionResult> PutTipoDocumentos(Carrera proyecto)
+        {
+            var db = await context.Carreras
+                .FirstOrDefaultAsync(x => x.codigoCarrera == proyecto.codigoCarrera && x.estado == "activo");
+
+            if (db == null)
+                return NotFound("No existe ese codigo.");
+            db.nombreCarrera = proyecto.nombreCarrera;
+            db.facultad = proyecto.facultad;
+         
+            await context.SaveChangesAsync();
+            return Ok($"Se actualizó el codigo: {proyecto.codigoCarrera}");
+        }
+
         [HttpPost]
-    public async Task<ActionResult<Carrera>> PostCareer(Carrera archivo )
+    public async Task<ActionResult<Carrera>> PostCarrera(Carrera archivo )
     {
             var xd = await (from ar in context.Carreras
                             where ar.codigoCarrera ==archivo.codigoCarrera
                             select ar).FirstOrDefaultAsync();
             if(xd != null)
             {
-                return BadRequest("El archivo con este codigo ya existe");
+                return BadRequest("La carrera con este codigo ya existe");
             }
         await context.Carreras.AddAsync(archivo);
         await context.SaveChangesAsync();
         return Ok(archivo);
     }
         [HttpDelete]
-        public async Task<ActionResult<Carrera>> DeleteCareer(string codigo)
+        public async Task<ActionResult<Carrera>> DeleteCarrera(string codigo)
         {
             
             var xd = await (from ar in context.Carreras
                              where ar.codigoCarrera == codigo
                              select ar).FirstAsync();
-            xd.estado="Inactivo";
+            xd.estado="inactivo";
             await context.SaveChangesAsync();
-            return Ok("Archivo eliminado correctamente");
+            return Ok("Carrera eliminada correctamente");
         }
 
     }

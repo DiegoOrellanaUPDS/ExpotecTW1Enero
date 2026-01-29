@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
 
-
 namespace Data
 {
     public class AppDbContext : DbContext
