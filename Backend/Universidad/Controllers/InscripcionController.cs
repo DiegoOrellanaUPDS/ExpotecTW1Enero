@@ -1,5 +1,5 @@
 using Data;
-using Entities;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Entidades;
