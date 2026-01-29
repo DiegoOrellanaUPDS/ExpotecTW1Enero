@@ -11,6 +11,6 @@ namespace Entidades
         public string CodigoTrabajo { get; set; }  
         public string Telefono { get; set; }
         public int IdDocumento { get; set; } 
-        public string Estado { get; set; }
+        public bool Estado { get; set; }
     }
 }

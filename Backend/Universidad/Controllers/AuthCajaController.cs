@@ -19,7 +19,6 @@ namespace Universidad.Controllers
             _context = context;
         }
 
-        // 🔹 1. LOGIN → redirige a GitHub
         [HttpGet("discord-login")]
         public IActionResult DiscordLogin()
         {
@@ -36,7 +35,6 @@ namespace Universidad.Controllers
             return Ok(discordUrl);
         }
 
-        // 🔹 2. CALLBACK → GitHub responde aquí
         [HttpGet("discord-callback")]
         public async Task<IActionResult> DiscordCallback([FromQuery] string code)
         {
