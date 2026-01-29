@@ -1,9 +1,10 @@
 using Data;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-//builder.WebHost.UseUrls("http://0.0.0.0:8080");
-// Obtener la cadena de conexión desde las variables de entorno
+
+// Obtener la cadena de conexiÃ³n desde las variables de entorno
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
                        ?? builder.Configuration.GetConnectionString("Connection");
 
@@ -11,8 +12,9 @@ var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString, npgsqlOptions =>
     {
-        npgsqlOptions.EnableRetryOnFailure(); // Intentar reconectar en caso de fallo
+        npgsqlOptions.EnableRetryOnFailure();
     }));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyApp", policyBuilder =>
@@ -23,7 +25,63 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Añadir controladores, Swagger y la API de endpoints
+// =======================
+// âœ… OAuth2 DISCORD
+// =======================
+var discordClientId =
+    Environment.GetEnvironmentVariable("DISCORD_CLIENT_ID")
+    ?? builder.Configuration["OAuth:Discord:ClientId"];
+
+var discordClientSecret =
+    Environment.GetEnvironmentVariable("DISCORD_CLIENT_SECRET")
+    ?? builder.Configuration["OAuth:Discord:ClientSecret"];
+
+builder.Services
+    .AddAuthentication(options =>
+    {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = "Discord";
+    })
+    .AddCookie(options =>
+    {
+        options.Cookie.Name = "universidad_auth";
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+        options.SlidingExpiration = true;
+
+        options.Events = new CookieAuthenticationEvents
+        {
+            OnRedirectToLogin = ctx =>
+            {
+                ctx.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                return Task.CompletedTask;
+            },
+            OnRedirectToAccessDenied = ctx =>
+            {
+                ctx.Response.StatusCode = StatusCodes.Status403Forbidden;
+                return Task.CompletedTask;
+            }
+        };
+    })
+    .AddDiscord("Discord", options =>
+    {
+        options.ClientId = discordClientId!;
+        options.ClientSecret = discordClientSecret!;
+
+        // âœ… ESTE es el callback del middleware OAuth (no tu controller)
+        options.CallbackPath = "/signin-discord";
+
+        options.Scope.Add("identify");
+        options.Scope.Add("email");
+
+        options.SaveTokens = true;
+    });
+
+builder.Services.AddAuthorization();
+
+// Controllers, Swagger y HttpClient
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -31,30 +89,33 @@ builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
-// Aplicar migraciones al iniciar la aplicación
+// Migraciones
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
     {
-        dbContext.Database.Migrate(); // Aplica migraciones si no existen
+        dbContext.Database.Migrate();
     }
     catch (Exception ex)
     {
         Console.WriteLine("Error aplicando migraciones: " + ex.Message);
     }
 }
+
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
-    //c.RoutePrefix = string.Empty; // Esto hace que Swagger esté en la raíz (puedes ajustarlo si necesitas otro lugar)
 });
 
-// Middleware
 app.UseCors("MyApp");
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
 
+// Si estÃ¡s en puro HTTP, esto solo da warning (opcional comentarlo)
+// app.UseHttpsRedirection();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapControllers();
 app.Run();

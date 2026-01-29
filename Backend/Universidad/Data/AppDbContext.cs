@@ -11,6 +11,7 @@ namespace Data
 
         // Define tus DbSet aquí
         public DbSet<Persona> Estudiantes { get; set; }
+       public DbSet<Inscripcion> Inscripciones { get; set; }
 
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Producto> Productos { get; set; }
