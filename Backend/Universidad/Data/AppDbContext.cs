@@ -105,6 +105,12 @@ namespace Data
         public DbSet<PracticaProfesional> PracticasProfesionales { get; set; }
         public DbSet<UsuarioPracticasProfesionales> UsuariosPracticasProfesionales { get; set; }
 
+
+
+        //Facultad de Ciencias Empresariales y Sociales
+        public DbSet<Modulo> Modulos { get; set; }
+        public DbSet<Semestre> Semestres { get; set; }
+        public DbSet<Proyeccion> Proyecciones { get; set; }
     }
 
 }

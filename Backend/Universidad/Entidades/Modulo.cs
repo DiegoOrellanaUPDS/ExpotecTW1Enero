@@ -6,6 +6,8 @@ namespace Entidades
     {
         public int Id { get; set; }
         public int NumeroModulo { get; set; }
+        public string Codigo { get; set; }
+
         public int Anio { get; set; }
         public int Mes { get; set; }
         public string Turno { get; set; }
