@@ -12,7 +12,7 @@ using Universidad.Entidades;
 namespace Universidad.Controllers
 {
     [ApiController]
-    [Route("auth1")]
+    [Route("auth2")]
     public class UsuarioCIITController : ControllerBase
     {
         private readonly AppDbContext context;
