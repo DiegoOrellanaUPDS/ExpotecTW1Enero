@@ -44,6 +44,7 @@ namespace Data
         public DbSet<SolicitudBeca> SolicitudesBecas { get; set; }
         public DbSet<BeneficioBeca> BeneficiosBecas { get; set; }
         public DbSet<EstadoSolicitud> EstadosSolicitudes { get; set; }
+        public DbSet<UsuarioBecasOAuth> UsuariosBecasOAuth { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         modelBuilder.Entity<Profesor>(entity =>
