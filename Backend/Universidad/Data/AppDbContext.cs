@@ -38,7 +38,7 @@ namespace Data
         public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
         public DbSet<Trabajo> Trabajos {get;set;}
         public DbSet<UsuarioTH> UsuarioTHs {get;set;}
-        
+        // Tablas de Becas
         public DbSet<Usuario_Becas> UsuariosBecas { get; set; }
         public DbSet<Beca> Becas { get; set; }
         public DbSet<SolicitudBeca> SolicitudesBecas { get; set; }
