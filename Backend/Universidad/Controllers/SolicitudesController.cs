@@ -19,14 +19,16 @@ namespace Universidad.Controllers
             _context = context;
         }
 
-    
+        // GET: api/Solicitudes
+        // Muestra todas las solicitudes
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Solicitud>>> GetSolicitudes()
         {
             return await _context.Solicitudes.ToListAsync();
         }
 
-       
+        // GET: api/Solicitudes/buscar?codigo=SOL001&tipo=Trámite académico
+        // Filtra por código y tipo
         [HttpGet("buscar")]
         public async Task<ActionResult<IEnumerable<Solicitud>>> GetSolicitudesPorCodigoTipo(
             [FromQuery] string codigo,
@@ -43,5 +45,18 @@ namespace Universidad.Controllers
 
             return solicitudes;
         }
+
+        // POST: api/Solicitudes
+        // Inserta una nueva solicitud
+        [HttpPost]
+        public async Task<ActionResult<Solicitud>> PostSolicitud(Solicitud solicitud)
+        {
+            _context.Solicitudes.Add(solicitud);
+            await _context.SaveChangesAsync();
+
+            // Devuelve la solicitud creada con su Id asignado
+            return CreatedAtAction(nameof(GetSolicitudes), new { id = solicitud.Id }, solicitud);
+        }
     }
 }
+
