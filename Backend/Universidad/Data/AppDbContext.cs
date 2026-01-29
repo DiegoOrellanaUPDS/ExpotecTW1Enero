@@ -14,6 +14,7 @@ namespace Data
         public DbSet<Usuario_Caja> Usuarios_Caja { get; set; }
         public DbSet<UsuarioFI> UsuarioFIs { get; set; }
         public DbSet<Materia> Materias { get; set; }
+        public DbSet<ContabilidadLoginOauth> ContabilidadLoginOauth { get; set; }
         public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
         public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
         public DbSet<Persona> Estudiantes { get; set; }
