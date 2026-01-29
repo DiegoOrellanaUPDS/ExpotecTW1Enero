@@ -33,7 +33,7 @@ namespace Controllers
         }
 
         [HttpPut("actualizar")]
-        public async Task<IActionResult> PutTipoDocumentos(Carrera proyecto)
+        public async Task<IActionResult> PutCarrera(Carrera proyecto)
         {
             var db = await context.Carreras
                 .FirstOrDefaultAsync(x => x.codigoCarrera == proyecto.codigoCarrera && x.estado == "activo");
