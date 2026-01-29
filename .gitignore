@@ -21,3 +21,6 @@ Thumbs.db
 docker-compose.override.yml
 Backend/Universidad/appsettings*.json
 Backend/Universidad/Migrations/
+# Backups temporales
+*.bak
+*.bak.*
