@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Net.Http.Headers;
 using Universidad.Entidades;
 using Data;
+using Entidades;
 
 namespace Universidad.Controllers
 {

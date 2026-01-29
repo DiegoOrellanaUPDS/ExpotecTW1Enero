@@ -20,7 +20,7 @@ namespace Controllers
         public async Task<ActionResult<IEnumerable<Docente>>> GetDocentes()
         {
              return await(from ar in context.Docentes
-                           where ar.estado == "activo"
+                           where ar.estado == true
                            select ar).ToListAsync();
             
         }
@@ -78,7 +78,7 @@ namespace Controllers
             var xd = await (from ar in context.Docentes
                              where ar.docenteCi == codigo
                              select ar).FirstAsync();
-            xd.estado="Inactivo";
+            xd.estado=false;
             await context.SaveChangesAsync();
             return Ok("Docente eliminado correctamente");
         }

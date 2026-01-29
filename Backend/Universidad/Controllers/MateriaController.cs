@@ -26,7 +26,7 @@ namespace FacultadIngenieria.Controllers
         public async Task<IActionResult> GetMateriaCodigo(string cod)
         {
             var materia = await (from mater in context.Docentes
-                                   where mater.Codigo == cod && mater.Estado != false
+                                   where mater.docenteCi == cod && mater.estado != false
                                    select mater).FirstOrDefaultAsync();
             if (materia == null)
                 return NotFound();
@@ -37,7 +37,7 @@ namespace FacultadIngenieria.Controllers
         public async Task<IActionResult> CreateMateria(Materia materia)
         {
             var e = await (from mater in context.Docentes
-                           where mater.Codigo == materia.Codigo && mater.Estado != false
+                           where mater.docenteCi == materia.Codigo && mater.estado != false
                            select mater).FirstOrDefaultAsync();
             if (e != null)
                 return BadRequest("La materia ya se encuentra en la base de datos");

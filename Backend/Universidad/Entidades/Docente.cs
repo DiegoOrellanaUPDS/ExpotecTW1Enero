@@ -19,7 +19,7 @@ namespace Entidades
         public string direccion {get;set;}
         public string gradoAcademido {get;set;}
         public string fechaDeIngreso {get;set;}
-        public string estado {get;set;}="activo";
+        public bool estado {get;set;}=true;
 
     }
 }

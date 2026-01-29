@@ -4,6 +4,7 @@ using Data;
 using Universidad.Entidades;
 using Universidad.Core.DTOs;
 using Universidad.Core.Mapedores;
+using Entidades;
 
 namespace Universidad.Presentacion.Controllers
 {

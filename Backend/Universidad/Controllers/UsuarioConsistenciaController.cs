@@ -5,23 +5,23 @@ using Entidades;
 
 namespace Controllers
 {
-    [Route("auth")]
     [ApiController]
+    [Route("auth")]
     public class AuthUsuarioConsistenciaController : ControllerBase
     {
-        private readonly IConfiguration configuration;
+        // private readonly IConfiguration configuration;
         IHttpClientFactory httpClientFactory;
         private readonly AppDbContext context;
         public AuthUsuarioConsistenciaController(IConfiguration configuration,IHttpClientFactory httpClientFactory,AppDbContext context)
         {
 
-            this.configuration = configuration;
+            // this.configuration = configuration;
             this.httpClientFactory = httpClientFactory;
             this.context = context;
         }
 
 
-        [HttpGet("login")]
+        [HttpGet("login-consistencia")]
         public async Task<IActionResult>Login()
         {
             var ClientId = "1465001775135195361";
@@ -37,7 +37,7 @@ namespace Controllers
             return Ok(Redirect(url));
         }
 
-        [HttpGet("callback")]
+        [HttpGet("callback-consistencia")]
         public async Task<IActionResult> Callback([FromQuery] string code)
         {
             if (string.IsNullOrEmpty(code))
@@ -92,6 +92,7 @@ namespace Controllers
                     rol = "usuario",
                     codigoUsuario = tokenSesion,
                     contrasena= "",
+                    estado="activo",
                     fechaDeCreacion = DateOnly.FromDateTime(DateTime.Now)
                 };
                 context.UsuariosConsistencia.Add(usuario);

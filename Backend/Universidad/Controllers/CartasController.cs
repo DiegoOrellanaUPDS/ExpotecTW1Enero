@@ -3,6 +3,7 @@ using Universidad.Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Universidad.Core.DTOs;
+using Entidades;
 
 namespace Controllers
 {

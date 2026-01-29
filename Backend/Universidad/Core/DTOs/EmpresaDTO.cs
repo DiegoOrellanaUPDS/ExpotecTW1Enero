@@ -1,3 +1,4 @@
+using Entidades;
 using Universidad.Entidades;
 
 namespace Universidad.Core.DTOs

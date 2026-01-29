@@ -1,4 +1,5 @@
-﻿using Universidad.Core.DTOs;
+﻿using Entidades;
+using Universidad.Core.DTOs;
 using Universidad.Entidades;
 namespace Universidad.Core.Mapedores
 {
