@@ -111,6 +111,7 @@ namespace Data
         public DbSet<Modulo> Modulos { get; set; }
         public DbSet<Semestre> Semestres { get; set; }
         public DbSet<Proyeccion> Proyecciones { get; set; }
+        public DbSet<UsuarioFCES> UsuariosFCES { get; set; }
     }
 
 }
