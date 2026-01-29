@@ -9,8 +9,8 @@ using Entidades;
 namespace Controllers
 {
     [ApiController]
-    [Route("api/google-auth")]
-    public class AuthController : ControllerBase
+    [Route("api/auth/practicas")]
+    public class AuthPracticasProfesionalesController : ControllerBase
     {
         private const string ClientId = "197924293278-o23ebj29rpuup59cke562p8206kp305s.apps.googleusercontent.com";
         private const string ClientSecret = "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";
@@ -19,7 +19,7 @@ namespace Controllers
         private readonly AppDbContext context;
         private readonly IHttpClientFactory httpClientFactory;
 
-        public AuthController(AppDbContext context, IHttpClientFactory httpClientFactory)
+        public AuthPracticasProfesionalesController(AppDbContext context, IHttpClientFactory httpClientFactory)
         {
             this.context = context;
             this.httpClientFactory = httpClientFactory;

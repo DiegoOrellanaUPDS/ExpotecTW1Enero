@@ -8,13 +8,13 @@ namespace Universidad.Controllers
 {
     [ApiController]
     [Route("api/auth/discord1")]
-    public class AuthController : ControllerBase
+    public class AuthProduccionController : ControllerBase
     {
         private readonly IConfiguration _config;
         private readonly AppDbContext _context;
         private readonly HttpClient _http;
 
-        public AuthController(IConfiguration config, AppDbContext context)
+        public AuthProduccionController(IConfiguration config, AppDbContext context)
         {
             _config = config;
             _context = context;
