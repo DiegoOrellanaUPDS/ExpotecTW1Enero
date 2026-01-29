@@ -35,7 +35,12 @@ namespace Data
         public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
         public DbSet<Trabajo> Trabajos {get;set;}
         public DbSet<UsuarioTH> UsuarioTHs {get;set;}
-
+        
+        public DbSet<Usuario_Becas> UsuariosBecas { get; set; }
+        public DbSet<Beca> Becas { get; set; }
+        public DbSet<SolicitudBeca> SolicitudesBecas { get; set; }
+        public DbSet<BeneficioBeca> BeneficiosBecas { get; set; }
+        public DbSet<EstadoSolicitud> EstadosSolicitudes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         modelBuilder.Entity<Profesor>(entity =>
