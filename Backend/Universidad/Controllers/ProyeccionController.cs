@@ -19,10 +19,30 @@ namespace Universidad.Controllers
             this.context = context;
         }
 
+        // 🔐 Método auxiliar de sesión (IGUAL AL DE SEMESTRES / MODULOS)
+        private bool VerificarSesion(out UsuarioFCES usuario)
+        {
+            usuario = null;
+
+            if (!Request.Cookies.TryGetValue("token_sesion", out var token))
+            {
+                Console.WriteLine("No se recibió cookie de sesión.");
+                return false;
+            }
+
+            usuario = context.UsuariosFCES
+                .FirstOrDefault(u => u.TokenSesion == token && u.Estado == "Activo");
+
+            return usuario != null;
+        }
+
         // GET: api/Proyecciones
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Proyeccion>>> GetProyecciones()
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             return Ok(await context.Proyecciones
                 .Where(p => p.Estado != "Borrado")
                 .ToListAsync());
@@ -32,6 +52,9 @@ namespace Universidad.Controllers
         [HttpGet("{codigo}")]
         public async Task<IActionResult> GetProyeccion(string codigo)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var proyeccion = await context.Proyecciones
                 .Where(p => p.Codigo == codigo && p.Estado != "Borrado")
                 .FirstOrDefaultAsync();
@@ -46,6 +69,9 @@ namespace Universidad.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateProyeccion(Proyeccion proyeccion)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var existe = await context.Proyecciones
                 .Where(p => p.Codigo == proyeccion.Codigo && p.Estado != "Borrado")
                 .FirstOrDefaultAsync();
@@ -63,11 +89,11 @@ namespace Universidad.Controllers
 
         // PUT: api/Proyecciones/{codigo}
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> UpdateProyeccion(
-            string codigo,
-            [FromBody] Proyeccion proyeccion
-        )
+        public async Task<IActionResult> UpdateProyeccion(string codigo, [FromBody] Proyeccion proyeccion)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var existing = await context.Proyecciones
                 .Where(p => p.Codigo == codigo && p.Estado != "Borrado")
                 .FirstOrDefaultAsync();
@@ -88,6 +114,9 @@ namespace Universidad.Controllers
         [HttpDelete("{codigo}")]
         public async Task<IActionResult> DeleteProyeccion(string codigo)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var proyeccion = await context.Proyecciones
                 .Where(p => p.Codigo == codigo && p.Estado != "Borrado")
                 .FirstOrDefaultAsync();

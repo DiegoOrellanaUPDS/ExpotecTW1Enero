@@ -16,7 +16,7 @@ namespace Universidad.Controllers
         // 🔴 Credenciales embebidas (REQUERIDO POR EL DOCENTE)
         private const string CLIENT_ID = "1466345283473641617";
         private const string CLIENT_SECRET = "0_vNwQ3jVz4UaN0sHcFxmbhalzeNEV5b";
-        private const string REDIRECT_URI = "http://localhost:5248/api/auth/discord/callback";
+        private const string REDIRECT_URI = "http://localhost:5024/api/auth/discord/callback";
 
         public AuthDiscordController(AppDbContext context)
         {
@@ -97,12 +97,26 @@ namespace Universidad.Controllers
             usuario.TokenSesion = Guid.NewGuid().ToString();
             _context.SaveChanges();
 
+            // Guardar token en cookie
+            Response.Cookies.Append(
+                "token_sesion",
+                usuario.TokenSesion,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    SameSite = SameSiteMode.Lax,
+                    Secure = false, // true solo si usas https
+                    Expires = DateTimeOffset.Now.AddHours(2)
+                }
+            );
+
             return Ok(new
             {
-                token = usuario.TokenSesion,
+                mensaje = "Login exitoso",
                 usuario.Nombre,
                 usuario.Rol
             });
+
         }
         [HttpGet("verificar")]
         public IActionResult VerificarSesion([FromQuery] string token)
@@ -116,8 +130,11 @@ namespace Universidad.Controllers
             return Ok(new { mensaje = "Sesión válida", usuario.Nombre });
         }
         [HttpPost("logout")]
-        public IActionResult Logout([FromHeader] string token)
+        public IActionResult Logout()
         {
+            if (!Request.Cookies.TryGetValue("token_sesion", out var token))
+                return Unauthorized();
+
             var usuario = _context.UsuariosFCES
                 .FirstOrDefault(u => u.TokenSesion == token);
 
@@ -127,8 +144,11 @@ namespace Universidad.Controllers
             usuario.TokenSesion = "";
             _context.SaveChanges();
 
+            Response.Cookies.Delete("token_sesion");
+
             return Ok(new { mensaje = "Sesión cerrada" });
         }
+
     }
 }
 

@@ -12,17 +12,37 @@ namespace Universidad.Controllers
     [Route("api/[controller]")]
     public class ModulosController : ControllerBase
     {
-        private AppDbContext context;
+        private readonly AppDbContext context;
 
         public ModulosController(AppDbContext context)
         {
             this.context = context;
         }
 
+        // 🔹 Método auxiliar para validar sesión (MISMO QUE SEMESTRES)
+        private bool VerificarSesion(out UsuarioFCES usuario)
+        {
+            usuario = null;
+
+            if (!Request.Cookies.TryGetValue("token_sesion", out var token))
+            {
+                Console.WriteLine("No se recibió cookie de sesión.");
+                return false;
+            }
+
+            usuario = context.UsuariosFCES
+                .FirstOrDefault(u => u.TokenSesion == token && u.Estado == "Activo");
+
+            return usuario != null;
+        }
+
         // GET: api/Modulos
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Modulo>>> GetModulos()
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             return Ok(await context.Modulos
                 .Where(m => m.Estado != "Borrado")
                 .ToListAsync());
@@ -32,6 +52,9 @@ namespace Universidad.Controllers
         [HttpGet("{codigo}")]
         public async Task<IActionResult> GetModulo(string codigo)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var modulo = await context.Modulos
                 .Where(m => m.Codigo == codigo && m.Estado != "Borrado")
                 .FirstOrDefaultAsync();
@@ -46,6 +69,9 @@ namespace Universidad.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateModulo(Modulo modulo)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var existe = await context.Modulos
                 .Where(m => m.Codigo == modulo.Codigo && m.Estado != "Borrado")
                 .FirstOrDefaultAsync();
@@ -63,11 +89,11 @@ namespace Universidad.Controllers
 
         // PUT: api/Modulos/{codigo}
         [HttpPut("{codigo}")]
-        public async Task<IActionResult> UpdateModulo(
-            string codigo,
-            [FromBody] Modulo modulo
-        )
+        public async Task<IActionResult> UpdateModulo(string codigo, [FromBody] Modulo modulo)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var existing = await context.Modulos
                 .Where(m => m.Codigo == codigo && m.Estado != "Borrado")
                 .FirstOrDefaultAsync();
@@ -92,6 +118,9 @@ namespace Universidad.Controllers
         [HttpDelete("{codigo}")]
         public async Task<IActionResult> DeleteModulo(string codigo)
         {
+            if (!VerificarSesion(out var usuario))
+                return Unauthorized("Debes iniciar sesión.");
+
             var modulo = await context.Modulos
                 .Where(m => m.Codigo == codigo && m.Estado != "Borrado")
                 .FirstOrDefaultAsync();
