@@ -67,7 +67,7 @@ namespace Data
                     .HasMaxLength(200);
                 
                 entity.Property(e => e.FechaCreacion)
-                    .HasDefaultValueSql("NOW()");
+                    .HasDefaultValueSql("CURRENT_DATE");
             });
             base.OnModelCreating(modelBuilder);
             // Recorre todas las entidades y propiedades DateTime
