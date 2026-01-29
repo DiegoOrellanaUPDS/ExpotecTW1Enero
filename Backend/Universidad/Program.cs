@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Universidad.Data;
+using Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

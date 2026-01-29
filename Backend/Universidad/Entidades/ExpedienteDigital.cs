@@ -12,6 +12,6 @@ namespace Entidades
         public string nombreArchivo {get;set;}
         public string archivoCode {get;set;}
         public string observaciones {get;set;}
-        public string estado {get;set;} = "activo";
+        public string estado {get;set;} 
     }
 }

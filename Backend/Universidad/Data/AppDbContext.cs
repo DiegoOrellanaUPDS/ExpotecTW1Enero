@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Entidades;
 using Entities;
 
-namespace Universidad.Data
+namespace Data
 {
     public class AppDbContext : DbContext
     {
