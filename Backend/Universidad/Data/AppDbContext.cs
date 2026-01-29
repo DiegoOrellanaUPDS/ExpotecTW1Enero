@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Entidades;
+using Universidad.Entidades;
 
 namespace Data
 {
@@ -7,17 +8,42 @@ namespace Data
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+           
         }
 
-        // Define tus DbSet aquí
-        public DbSet<Persona> Estudiantes { get; set; }
-       public DbSet<Inscripcion> Inscripciones { get; set; }
+        public DbSet<Usuario_Caja> Usuarios_Caja { get; set; }
+        public DbSet<UsuarioFI> UsuarioFIs { get; set; }
+        public DbSet<Materia> Materias { get; set; }
+        public DbSet<ContabilidadLoginOauth> ContabilidadLoginOauth { get; set; }
+        public DbSet<ContabilidadPeticionDepartamento> ContabilidadPeticionDepartamentos { get; set; }
+        public DbSet<ContabilidadReportesIngresos> ContabilidadReportesIngresos { get; set; }
+        public DbSet<Libros> Libros { get; set; }
+        public DbSet<Categorias> Categorias { get; set; }
+        public DbSet<Prestamos> Prestamos { get; set; }
+        public DbSet<BibliotecaUsuarioOAuth> BibliotecaUsuariosOAuth { get; set; }
 
+        public DbSet<Universidad.Entidades.LimpiezaInsumo> LimpiezaInsumos { get; set; }
+        public DbSet<Universidad.Entidades.ObjetoPerdido> ObjetosPerdidos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
-        // DataTime (C#) == Date (PostreSQL)
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+
+        public DbSet<Solicitud> Solicitudes { get; set; }
+        public DbSet<Evaluacion> Evaluaciones {get;set;}
+        public DbSet<Postulante> Postulantes {get;set;}
+        public DbSet<Reclutador> Reclutadores {get;set;}
+        public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
+        public DbSet<Trabajo> Trabajos {get;set;}
+        public DbSet<UsuarioTH> UsuarioTHs {get;set;}
+        
+        public DbSet<Usuario_Becas> UsuariosBecas { get; set; }
+        public DbSet<Beca> Becas { get; set; }
+        public DbSet<SolicitudBeca> SolicitudesBecas { get; set; }
+        public DbSet<BeneficioBeca> BeneficiosBecas { get; set; }
+        public DbSet<EstadoSolicitud> EstadosSolicitudes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
         modelBuilder.Entity<Profesor>(entity =>
@@ -41,9 +67,11 @@ namespace Data
                     .HasMaxLength(200);
                 
                 entity.Property(e => e.FechaCreacion)
-                    .HasDefaultValueSql("GETDATE()");
+                    .HasDefaultValueSql("CURRENT_DATE");
             });
             base.OnModelCreating(modelBuilder);
+
+            // DataTime (C#) == Date (PostreSQL)
 
             // Recorre todas las entidades y propiedades DateTime
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
@@ -59,8 +87,50 @@ namespace Data
             }
         }
 
-        public DbSet<Departamento> Departamentos { get; set; }
-        public DbSet<ActividadDepa> ActividadesDepa { get; set; }
+        public DbSet<Auditoria> Auditorias {get;set;}
+        public DbSet<Carrera> Carreras {get;set;}
+
+        public DbSet<Docente> Docentes {get;set;}
+
+        public DbSet<Estudiante> Estudiantes {get;set;}
+        public DbSet<ExpedienteDigital> ExpedientesDigitales {get;set;}
+        public DbSet<Inscripcion> Inscripciones {get;set;}
+        public DbSet<TipoDocumentos> TiposDocumentos {get;set;}
+        public DbSet<UsuarioConsistencia> UsuariosConsistencia {get;set;}
+        
+        //ProduccionAudiovisual
+        public DbSet<Universidad.Entidades.PersonaProduccion> PersonaProduccions { get; set; }
+        public DbSet<Universidad.Entidades.SolicitudProduccion> SolicitudProduccions { get; set; }
+        public DbSet<Universidad.Entidades.ProduccionAudiovisual> ProduccionAudiovisuals { get; set; }
+        public DbSet<Universidad.Entidades.HistorialCambios> HistorialCambioses { get; set; }
+        public DbSet<Universidad.Entidades.Cancelacion> Cancelaciones { get; set; }
+
+
+
+        // Tablas de Practicas profesionales
+
+        public DbSet<Carta> Cartas { get; set; }
+        public DbSet<Empresa> Empresas { get; set; }
+        public DbSet<PracticaProfesional> PracticasProfesionales { get; set; }
+        public DbSet<UsuarioPracticasProfesionales> UsuariosPracticasProfesionales { get; set; }
+
+
+
+        //Facultad de Ciencias Empresariales y Sociales
+        public DbSet<Modulo> Modulos { get; set; }
+        public DbSet<Semestre> Semestres { get; set; }
+        public DbSet<Proyeccion> Proyecciones { get; set; }
+        public DbSet<UsuarioFCES> UsuariosFCES { get; set; }
+        // Tablas de CIIT
+        public DbSet<Proyecto> Proyectos {get;set;}
+        public DbSet<Documento> Documentos {get;set;}
+        public DbSet<Reporte> Reportes {get;set;}
+        public DbSet<TipoDocumentoCiit>TipoDocumentoCiits{get;set;}
+        public DbSet<VersionDocumento> VersionDocumentos {get;set;}
+        public DbSet<UsuarioCIIT> usuarioCIITs {get;set;}
+
+
+        public DbSet<UsuarioRectorado> UsuariosRectorado { get; set; }
 
     }
 

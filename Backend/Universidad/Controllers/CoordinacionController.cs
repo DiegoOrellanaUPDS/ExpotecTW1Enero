@@ -1,3 +1,4 @@
+using Entidades;
 using Microsoft.AspNetCore.Mvc;
 using Universidad.Entidades;
 

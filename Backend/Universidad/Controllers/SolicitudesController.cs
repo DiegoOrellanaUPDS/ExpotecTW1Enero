@@ -1,0 +1,47 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Data;
+using Entidades;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Universidad.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class SolicitudesController : ControllerBase
+    {
+        private readonly AppDbContext _context;
+
+        public SolicitudesController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+    
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Solicitud>>> GetSolicitudes()
+        {
+            return await _context.Solicitudes.ToListAsync();
+        }
+
+       
+        [HttpGet("buscar")]
+        public async Task<ActionResult<IEnumerable<Solicitud>>> GetSolicitudesPorCodigoTipo(
+            [FromQuery] string codigo,
+            [FromQuery] string tipo)
+        {
+            var solicitudes = await _context.Solicitudes
+                .Where(s => s.CodigoSolicitud == codigo && s.Tipo == tipo)
+                .ToListAsync();
+
+            if (solicitudes == null || solicitudes.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return solicitudes;
+        }
+    }
+}
