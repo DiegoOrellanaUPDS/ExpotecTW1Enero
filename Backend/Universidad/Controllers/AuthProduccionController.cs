@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Universidad.Entidades;
-
 namespace Universidad.Controllers
 {
     [ApiController]
