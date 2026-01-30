@@ -43,6 +43,11 @@ namespace Data
         public DbSet<EstudianteBeneficiario> EstudianteBeneficiarios { get; set; }
         public DbSet<SolicitudApoyo> SolicitudApoyos { get; set; }
         public DbSet<ActividadBienestar> ActividadBienestars { get; set; }
+        // Podcast
+        public DbSet<UsuarioPodcast> UsuarioPodcasts { get; set; }
+        public DbSet<EpisodioPodcast> EpisodioPodcasts { get; set; }
+        public DbSet<ProgramacionPodcast> ProgramacionPodcasts { get; set; }
+        public DbSet<RecursoPodcast> RecursoPodcasts { get; set; }
         // Vicerrectorado
         public DbSet<UsuarioVicerrectorado> UsuarioVicerrectorados { get; set; }
         public DbSet<InformeVicerrectorado> InformeVicerrectorados { get; set; }
