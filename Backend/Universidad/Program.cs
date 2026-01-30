@@ -1,50 +1,38 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.EntityFrameworkCore;
 using Universidad.Data;
+using Universidad.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DB
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
-);
-
-// AUTH
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
-})
-.AddCookie()
-.AddGoogle(options =>
-{
-    options.ClientId = builder.Configuration["GoogleAuth:ClientId"];
-    options.ClientSecret = builder.Configuration["GoogleAuth:ClientSecret"];
-});
-
-// AUTHORIZATION
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("SoloBrandon", policy =>
-        policy.RequireAssertion(context =>
-            context.User.HasClaim(c =>
-                c.Type == "email" && c.Value == "fuertesgaray@gmail.com")));
-});
-
+// Add services to the container
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Database configuration
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite("Data Source=universidad.db"));
+
+// Register services
+builder.Services.AddScoped<IRegistroService, RegistroService>();
+
 var app = builder.Build();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseHttpsRedirection();
-
-app.UseAuthentication(); // 🔴 OBLIGATORIO
 app.UseAuthorization();
-
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.EnsureCreated();
+    await SeedData.Initialize(dbContext);
+}
+
 app.Run();
