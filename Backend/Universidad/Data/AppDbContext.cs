@@ -27,6 +27,7 @@ namespace Data
         public DbSet<Universidad.Entidades.ObjetoPerdido> ObjetosPerdidos { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<Licencia> Licencias { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
         public DbSet<Departamento> Departamentos { get; set; }
