@@ -39,6 +39,15 @@ namespace Data
         public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
         public DbSet<Trabajo> Trabajos {get;set;}
         public DbSet<UsuarioTH> UsuarioTHs {get;set;}
+        public DbSet<UsuarioBienestar> UsuarioBienestars { get; set; }
+        public DbSet<EstudianteBeneficiario> EstudianteBeneficiarios { get; set; }
+        public DbSet<SolicitudApoyo> SolicitudApoyos { get; set; }
+        public DbSet<ActividadBienestar> ActividadBienestars { get; set; }
+        // Vicerrectorado
+        public DbSet<UsuarioVicerrectorado> UsuarioVicerrectorados { get; set; }
+        public DbSet<InformeVicerrectorado> InformeVicerrectorados { get; set; }
+        public DbSet<ResolucionVicerrectorado> ResolucionVicerrectorados { get; set; }
+        public DbSet<ReunionVicerrectorado> ReunionVicerrectorados { get; set; }
         // Tablas de Becas
         public DbSet<Usuario_Becas> UsuariosBecas { get; set; }
         public DbSet<Beca> Becas { get; set; }
