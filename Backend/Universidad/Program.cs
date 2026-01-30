@@ -9,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Database configuration (SQLite para simplicidad)
+// Database configuration
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite("Data Source=universidad.db"));
 
@@ -18,7 +18,6 @@ builder.Services.AddScoped<IRegistroService, RegistroService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -29,13 +28,10 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 
-// Create database if not exists
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     dbContext.Database.EnsureCreated();
-    
-    // Seed initial data if needed
     await SeedData.Initialize(dbContext);
 }
 

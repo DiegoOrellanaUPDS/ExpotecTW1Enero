@@ -41,26 +41,22 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Inscripcion>()
             .HasOne(i => i.Estudiante)
             .WithMany(e => e.Inscripciones)
-            .HasForeignKey(i => i.EstudianteId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(i => i.EstudianteId);
 
         modelBuilder.Entity<Inscripcion>()
             .HasOne(i => i.Materia)
             .WithMany()
-            .HasForeignKey(i => i.MateriaId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(i => i.MateriaId);
 
         modelBuilder.Entity<Inscripcion>()
             .HasOne(i => i.Grupo)
             .WithMany(g => g.Inscripciones)
-            .HasForeignKey(i => i.GrupoId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(i => i.GrupoId);
 
         modelBuilder.Entity<Grupo>()
             .HasOne(g => g.Materia)
             .WithMany(m => m.Grupos)
-            .HasForeignKey(g => g.MateriaId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(g => g.MateriaId);
 
         modelBuilder.Entity<Grupo>()
             .HasOne(g => g.Docente)
@@ -71,7 +67,6 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Proyeccion>()
             .HasOne(p => p.Estudiante)
             .WithMany()
-            .HasForeignKey(p => p.EstudianteId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .HasForeignKey(p => p.EstudianteId);
     }
 }

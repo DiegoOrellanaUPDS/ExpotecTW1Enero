@@ -4,8 +4,8 @@ public class Grupo
 {
     public int Id { get; set; }
     public int MateriaId { get; set; }
-    public string Paralelo { get; set; } = "A"; // A, B, C, D
-    public string Turno { get; set; } = "Mañana"; // Mañana, Tarde, Noche
+    public string Paralelo { get; set; } = "A";
+    public string Turno { get; set; } = "Mañana";
     public int CupoMaximo { get; set; } = 30;
     public int CupoActual { get; set; } = 0;
     public int? DocenteId { get; set; }
@@ -16,5 +16,5 @@ public class Grupo
     // Navigation properties
     public Materia Materia { get; set; } = null!;
     public Docente? Docente { get; set; }
-    public System.Collections.Generic.List<Inscripcion> Inscripciones { get; set; } = new();
+    public List<Inscripcion> Inscripciones { get; set; } = new();
 }
