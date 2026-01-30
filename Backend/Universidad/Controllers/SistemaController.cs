@@ -7,77 +7,57 @@ using Entidades;
 [Route("api/[controller]")]
 public class SistemaController : ControllerBase
 {
-    private readonly AppDbContext _context;
-
-    public SistemaController(AppDbContext context)
+    private static readonly List<Profesor> _profesores = new()
     {
-        _context = context;
-    }
+        new Profesor { Id = 1, Nombre = "Juan Pérez", Categoria = "Titular", Correo = "juan@uni.com", Especialidad = "Matemáticas" },
+        new Profesor { Id = 2, Nombre = "María Gómez", Categoria = "Asociado", Correo = "maria@uni.com", Especialidad = "Física" }
+    };
+    private static int _nextId = 3;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Profesor>>> GetProfesores()
+    public ActionResult<IEnumerable<Profesor>> GetProfesores()
     {
-        return await _context.Profesores.ToListAsync();
+        return _profesores;
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Profesor>> GetProfesor(int id)
+    public ActionResult<Profesor> GetProfesor(int id)
     {
-        var profesor = await _context.Profesores.FindAsync(id);
-        
+        var profesor = _profesores.FirstOrDefault(p => p.Id == id);
         if (profesor == null)
             return NotFound();
-            
         return profesor;
     }
 
+
     [HttpPost]
-    public async Task<ActionResult<Profesor>> PostProfesor(Profesor profesor)
+    public ActionResult<Profesor> PostProfesor(Profesor profesor)
     {
-        _context.Profesores.Add(profesor);
-        await _context.SaveChangesAsync();
-        
-        return CreatedAtAction(nameof(GetProfesor), 
-            new { id = profesor.Id }, profesor);
+        profesor.Id = _nextId++;
+        profesor.FechaCreacion = DateTime.Now;
+        _profesores.Add(profesor);
+        return CreatedAtAction(nameof(GetProfesor), new { id = profesor.Id }, profesor);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutProfesor(int id, Profesor profesor)
+    public IActionResult PutProfesor(int id, Profesor profesor)
     {
-        if (id != profesor.Id)
-            return BadRequest();
-            
-        _context.Entry(profesor).State = EntityState.Modified;
+        if (id != profesor.Id) return BadRequest();
         
-        try
-        {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ProfesorExists(id))
-                return NotFound();
-            throw;
-        }
+        var index = _profesores.FindIndex(p => p.Id == id);
+        if (index == -1) return NotFound();
         
+        _profesores[index] = profesor;
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProfesor(int id)
+    public IActionResult DeleteProfesor(int id)
     {
-        var profesor = await _context.Profesores.FindAsync(id);
-        if (profesor == null)
-            return NotFound();
-            
-        _context.Profesores.Remove(profesor);
-        await _context.SaveChangesAsync();
+        var index = _profesores.FindIndex(p => p.Id == id);
+        if (index == -1) return NotFound();
         
+        _profesores.RemoveAt(index);
         return NoContent();
-    }
-
-    private bool ProfesorExists(int id)
-    {
-        return _context.Profesores.Any(e => e.Id == id);
     }
 }

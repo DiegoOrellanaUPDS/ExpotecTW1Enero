@@ -46,49 +46,7 @@ namespace Data
         public DbSet<BeneficioBeca> BeneficiosBecas { get; set; }
         public DbSet<EstadoSolicitud> EstadosSolicitudes { get; set; }
         public DbSet<UsuarioBecasOAuth> UsuariosBecasOAuth { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-        modelBuilder.Entity<Profesor>(entity =>
-            {
-                entity.ToTable("Profesores");
-                entity.HasKey(e => e.Id);
-            
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                
-                entity.Property(e => e.Categoria)
-                    .IsRequired()
-                    .HasMaxLength(50);
-                
-                entity.Property(e => e.Correo)
-                    .IsRequired()
-                    .HasMaxLength(100);
-                
-                entity.Property(e => e.Especialidad)
-                    .HasMaxLength(200);
-                
-                entity.Property(e => e.FechaCreacion)
-                    .HasDefaultValueSql("CURRENT_DATE");
-            });
-            base.OnModelCreating(modelBuilder);
-
-            // DataTime (C#) == Date (PostreSQL)
-
-            // Recorre todas las entidades y propiedades DateTime
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                foreach (var property in entityType.GetProperties())
-                {
-                    // Si la propiedad es DateTime o DateTime?
-                    if (property.ClrType == typeof(DateTime) || property.ClrType == typeof(DateTime?))
-                    {
-                        property.SetColumnType("date"); // Se guarda como "date" en PostgreSQL
-                    }
-                }
-            }
-        }
-
+        
         public DbSet<Auditoria> Auditorias {get;set;}
         public DbSet<Carrera> Carreras {get;set;}
 
@@ -130,9 +88,9 @@ namespace Data
         public DbSet<TipoDocumentoCiit>TipoDocumentoCiits{get;set;}
         public DbSet<VersionDocumento> VersionDocumentos {get;set;}
         public DbSet<UsuarioCIIT> usuarioCIITs {get;set;}
-
-
         public DbSet<UsuarioRectorado> UsuariosRectorado { get; set; }
+
+        public DbSet<ModalidadGrado> ModalidadesGrado { get; set;}
 
     }
 

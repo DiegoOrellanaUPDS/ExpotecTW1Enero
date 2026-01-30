@@ -1,6 +1,9 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Universidad.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,21 +42,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
-builder.Services.AddAuthentication("Bearer")
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        // Directamente tu clave del appsettings
+        var key = Encoding.UTF8.GetBytes("MiClaveSecretaParaBecasUPDS2025SistemaUniversitario123456");
+        
+        options.TokenValidationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
-                System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = true,
+            ValidIssuer = "UniversidadUPDS",
+            ValidateAudience = true,
+            ValidAudience = "BecasModule",
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
         };
     });
+
+
 
 builder.Services.AddAuthorization();
 
@@ -93,8 +101,6 @@ app.UseSwaggerUI(c =>
 });
 app.UseCors("MyApp");
 app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseSession();
