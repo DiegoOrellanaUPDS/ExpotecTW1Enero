@@ -39,6 +39,7 @@ namespace Data
         public DbSet<RequisitoMinimo> RequisitoMinimos {get;set;}
         public DbSet<Trabajo> Trabajos {get;set;}
         public DbSet<UsuarioTH> UsuarioTHs {get;set;}
+
         public DbSet<UsuarioBienestar> UsuarioBienestars { get; set; }
         public DbSet<EstudianteBeneficiario> EstudianteBeneficiarios { get; set; }
         public DbSet<SolicitudApoyo> SolicitudApoyos { get; set; }
@@ -54,6 +55,14 @@ namespace Data
         public DbSet<ResolucionVicerrectorado> ResolucionVicerrectorados { get; set; }
         public DbSet<ReunionVicerrectorado> ReunionVicerrectorados { get; set; }
         // Tablas de Becas
+        public DbSet<Usuario_extuniv> UsuariosExtuniv { get; set; }
+        public DbSet<ParticipanteProyecto> ParticipantesProyecto { get; set; }
+        // Extensión Universitaria
+        public DbSet<ProyectoExtension> ProyectoExtensions { get; set; }
+        public DbSet<ActividadExtension> ActividadExtensions { get; set; }
+        public DbSet<VoluntarioExtension> VoluntarioExtensions { get; set; }
+        public DbSet<SocioExtension> SocioExtensionExtensions { get; set; }
+
         public DbSet<Usuario_Becas> UsuariosBecas { get; set; }
         public DbSet<Beca> Becas { get; set; }
         public DbSet<SolicitudBeca> SolicitudesBecas { get; set; }
