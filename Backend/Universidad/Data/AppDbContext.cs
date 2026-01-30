@@ -126,7 +126,18 @@ namespace Data
         public DbSet<VersionDocumento> VersionDocumentos {get;set;}
         public DbSet<UsuarioCIIT> usuarioCIITs {get;set;}
 
+        // ASISTENTE DE JEFE DE CARRERAS
+        public DbSet<UsuarioAsistente> UsuariosAsistente { get; set; }
+        public DbSet<CarreraAsistente> CarrerasAsistente { get; set; }
+        public DbSet<MateriaAsistente> MateriasAsistente { get; set; }
+        public DbSet<MateriaPrerequisitoAsistente> MateriasPrerequisitosAsistente { get; set; }
+        public DbSet<SolicitudAsistente> SolicitudesAsistente { get; set; }
+        public DbSet<DocumentoAdjuntoAsistente> DocumentosAdjuntosAsistente { get; set; }
+        public DbSet<HorarioAsistente> HorariosAsistente { get; set; }
+        public DbSet<HorarioDiaAsistente> HorariosDiasAsistente { get; set; }
+        public DbSet<EventoAsistente> EventosAsistente { get; set; }
+        public DbSet<EventoParticipanteAsistente> EventosParticipantesAsistente { get; set; }
+        public DbSet<ReporteAsistente> ReportesAsistente { get; set; }
     }
-
 }
 
